@@ -79,6 +79,26 @@ public class BasicItemController {
         return "basic/item";
     }
 
+    // 상품 등록 데이터 처리
+    // V2에서 @ModelAttribute의 파라미터를 생략하는 방식으로 리팩토링 -> 클래스명인 Item을 이름으로 사용한다
+    // @PostMapping("/add")
+    public String addItemV3(@ModelAttribute Item item, Model model) {
+        // 파라미터로 받는 Model도 생략 가능하다.
+
+        /* @ModelAttribute가 아래 내용을 자동으로 처리한다.
+        Item item = new Item();
+        item.setItemName(itemName);
+        item.setPrice(price);
+        item.setQuantity(quantity); */
+
+        itemRepository.save(item);
+
+        // @ModelAttribute의 name 속성을 이용해 model.addAttribute()도 자동으로 처리해 준다.
+        // model.addAttribute("item", item);
+
+        return "basic/item";
+    }
+
     @PostConstruct
     public void init() {
 
