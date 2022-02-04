@@ -41,8 +41,8 @@ public class BasicItemController {
     }
 
     // 상품 등록 데이터 처리
-    @PostMapping("/add")
-    public String save(@RequestParam String itemName,
+    // @PostMapping("/add")
+    public String addItemV1(@RequestParam String itemName,
                        @RequestParam int price,
                        @RequestParam Integer quantity,
                        Model model) {
@@ -56,6 +56,25 @@ public class BasicItemController {
 
         model.addAttribute("item", item);
 
+        return "basic/item";
+    }
+
+    // 상품 등록 데이터 처리
+    // V1에 @ModelAttribute 이용하여 리팩토링
+    @PostMapping("/add")
+    public String addItemV2(@ModelAttribute("item") Item item, Model model) {
+        // 파라미터로 받는 Model도 생략 가능하다.
+
+        /* @ModelAttribute가 아래 내용을 자동으로 처리한다.
+        Item item = new Item();
+        item.setItemName(itemName);
+        item.setPrice(price);
+        item.setQuantity(quantity); */
+
+        itemRepository.save(item);
+
+        // @ModelAttribute의 name 속성을 이용해 model.addAttribute()도 자동으로 처리해 준다.
+        // model.addAttribute("item", item);
 
         return "basic/item";
     }
