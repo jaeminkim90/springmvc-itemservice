@@ -102,12 +102,19 @@ public class BasicItemController {
     // 상품 등록 데이터 처리
     // V3에서 @ModelAttribute를 완전히 생략하는 방식으로 리팩토링
     // 파라미터 타입이 단순 타입이묜 @RequestParam이 적용되고, 그 외 타입이면 @ModelAttribute가 적용된다.
-    @PostMapping("/add")
+    // @PostMapping("/add")
     public String addItemV4(Item item) {
         // @ModelAttribute이 생략된 것이므로, 파라미터 클래스명을 네임 속성으로 사용하는 @ModelAttribute의 특징이 그대로 적용된다.
         // Item -< item
         itemRepository.save(item);
         return "basic/item";
+    }
+
+    // PRG 패턴 적용
+    @PostMapping("/add")
+    public String addItemV5(Item item) {
+        itemRepository.save(item);
+        return "redirect:/basic/items/" + item.getId();
     }
 
     @GetMapping("/{itemId}/edit")
